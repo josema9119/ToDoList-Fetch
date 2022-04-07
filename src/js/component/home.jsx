@@ -1,24 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react/cjs/react.production.min";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
-//create your first component
 const Home = () => {
+	const [task, setTask] = useState("");
+	const [list, setList] = useState([]);
+
+	const addTask = () => {
+		setList([...list, task]);
+		setTask("");
+	};
 	return (
-		<div>
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="back">
+			<div className="container">
+				<h1 className="row mx-auto">Lista de tareas</h1>
+				<div className="d-table-row mx-auto">
+					<div className="input-group mb-3">
+						<button
+							className="input-group-text"
+							id="basic-addon1"
+							onClick={addTask}>
+							Añadir Tarea
+						</button>
+						<input
+							onChange={(e) => setTask(e.target.value)}
+							value={task}
+							type="text"
+							className="form-control"
+							placeholder="Tarea"
+							aria-label="Username"
+							aria-describedby="basic-addon1"></input>
+					</div>
+					<table class="table table-success table-striped">
+						<tbody>
+							{list.map((tasks, index) => (
+								<tr key={index}>
+									{tasks}
+									<button
+										onClick={() => {
+											setList(
+												list.filter(
+													(a, b) => b != index
+												)
+											);
+										}}
+										className="button border-0 rounded pt-1 pb-1">
+										x
+									</button>
+								</tr>
+							))}
+						</tbody>
+					</table>
+					{list.length + " Tareas añadidas"}
+				</div>
+			</div>
 		</div>
 	);
 };
