@@ -1,14 +1,33 @@
-import React, { useState } from "react";
-import { useEffect } from "react/cjs/react.production.min";
+import React, { useState, useEffect } from "react";
 
 const Home = () => {
 	const [task, setTask] = useState("");
 	const [list, setList] = useState([]);
 
 	const addTask = () => {
-		setList([...list, task]);
+		setList([...list, { label: task, done: false }]);
 		setTask("");
 	};
+
+	useEffect(() => {
+		fetchTask();
+	}, []);
+
+	const fetchTask = async () => {
+		const response = await fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/josema9119",
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+		const task1 = await response.json();
+		setList(task1);
+	};
+
+	const fetchList = async () => {};
 	return (
 		<div className="back">
 			<div className="container">
@@ -30,11 +49,11 @@ const Home = () => {
 							aria-label="Username"
 							aria-describedby="basic-addon1"></input>
 					</div>
-					<table class="table table-success table-striped">
+					<table className="table table-success table-striped">
 						<tbody>
 							{list.map((tasks, index) => (
 								<tr key={index}>
-									{tasks}
+									{tasks.label}
 									<button
 										onClick={() => {
 											setList(
