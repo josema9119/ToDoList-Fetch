@@ -7,6 +7,7 @@ const Home = () => {
 	const addTask = () => {
 		setList([...list, { label: task, done: false }]);
 		setTask("");
+		putOn([...list, { label: task, done: false }]);
 	};
 
 	useEffect(() => {
@@ -25,6 +26,18 @@ const Home = () => {
 		);
 		const task1 = await response.json();
 		setList(task1);
+	};
+	const putOn = async (newList) => {
+		const response = await fetch(
+			"https://assets.breatheco.de/apis/fake/todos/user/josema9119",
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(newList),
+			}
+		);
 	};
 
 	const fetchList = async () => {};
@@ -57,6 +70,11 @@ const Home = () => {
 									<button
 										onClick={() => {
 											setList(
+												list.filter(
+													(a, b) => b != index
+												)
+											);
+											putOn(
 												list.filter(
 													(a, b) => b != index
 												)
