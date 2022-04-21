@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import List from "./list.js";
 
 const Home = () => {
 	const [task, setTask] = useState("");
@@ -8,6 +9,9 @@ const Home = () => {
 		setList([...list, { label: task, done: false }]);
 		setTask("");
 		putOn([...list, { label: task, done: false }]);
+	};
+	const deleteTask = (indexList) => {
+		setList(() => list.filter((value, index) => index !== indexList));
 	};
 
 	useEffect(() => {
@@ -42,54 +46,37 @@ const Home = () => {
 
 	const fetchList = async () => {};
 	return (
-		<div className="back">
-			<div className="container">
-				<h1 className="row mx-auto">Lista de tareas</h1>
-				<div className="d-table-row mx-auto">
-					<div className="input-group mb-3">
-						<button
-							className="input-group-text"
-							id="basic-addon1"
-							onClick={addTask}>
-							Añadir Tarea
-						</button>
-						<input
-							onChange={(e) => setTask(e.target.value)}
-							value={task}
-							type="text"
-							className="form-control"
-							placeholder="Tarea"
-							aria-label="Username"
-							aria-describedby="basic-addon1"></input>
-					</div>
-					<table className="table table-success table-striped">
-						<tbody>
-							{list.map((tasks, index) => (
-								<tr key={index}>
-									{tasks.label}
-									<button
-										onClick={() => {
-											setList(
-												list.filter(
-													(a, b) => b != index
-												)
-											);
-											putOn(
-												list.filter(
-													(a, b) => b != index
-												)
-											);
-										}}
-										className="button border-0 rounded pt-1 pb-1">
-										x
-									</button>
-								</tr>
-							))}
-						</tbody>
-					</table>
-					{list.length + " Tareas añadidas"}
-				</div>
-			</div>
+		<div className="container bg-light justify-content-center">
+			<h1 className=" mx-auto text-center">Todo´s List</h1>
+			<input
+				onChange={(e) => setTask(e.target.value)}
+				value={task}
+				type="text"
+				className="col-4 border-0 d-flex self-align-center"
+				placeholder="Task"
+				onKeyDown={(e) => {
+					if (e.key === "Enter") {
+						task !== "" && task !== " "
+							? setList([...list, task])
+							: null;
+						setTask("");
+					}
+				}}></input>
+			<ul className="list-group">
+				{list.map((task, index) => (
+					<List
+						key={index}
+						inputTask={task}
+						quit={() => deleteTask(index)}
+					/>
+				))}
+
+				<span className="col-4 border-0 shadow p-3 bg-white">
+					{list.length === 0
+						? "No task, add a task"
+						: list.length + " item left"}
+				</span>
+			</ul>
 		</div>
 	);
 };
