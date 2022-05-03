@@ -9,7 +9,7 @@ const List = (props) => {
 			className="Li list-group-item col-4 border-0 shadow p-3 bg-white mb-0"
 			onMouseOver={(e) => setStyle({ display: "block" })}
 			onMouseOut={(e) => setStyle({ display: "none" })}>
-			{props.inputTask}
+			{props.setTask}
 			<button
 				type="button"
 				className="btn-close"
@@ -22,7 +22,7 @@ const List = (props) => {
 };
 
 List.propTypes = {
-	inputTask: propTypes.string,
+	setTask: propTypes.string,
 	quit: propTypes.func,
 };
 
