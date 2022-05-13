@@ -57,9 +57,7 @@ const Home = () => {
 					placeholder="Task"
 					onKeyDown={(e) => {
 						if (e.key === "Enter") {
-							task !== "" && task !== " "
-								? setList([...list, task])
-								: null;
+							task !== "" && task !== " " ? addTask() : null;
 							setTask("");
 						}
 					}}></input>
@@ -67,7 +65,7 @@ const Home = () => {
 					{list.map((task, index) => (
 						<List
 							key={index}
-							inputTask={task}
+							setTask={task.label}
 							quit={() => deleteTask(index)}
 						/>
 					))}
